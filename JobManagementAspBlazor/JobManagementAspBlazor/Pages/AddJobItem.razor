@@ -1,0 +1,98 @@
+﻿@using JobManagementAspBlazor.Context
+@using JobManagementAspBlazor.Data
+@inject IJSRuntime JSRuntime
+
+@if (IsShowAdd)
+{
+    <div class="addcontrol">
+        <button @onclick="SetShow" class="btn-hide"><i class="fas fa-window-close"></i></button>
+        <form class="row g-3">
+            <div class="col-12">
+                <label for="inputEmail4" class="form-label" style="color:rgb(0, 0, 0)">Tên công việc</label>
+                <input @bind="Job.JobName" type="text" class="form-control" id="inputEmail4">
+            </div>
+
+            <div class="col-12">
+                <label for="inputPassword4" class="form-label" style="color:rgb(0, 0, 0)">Thời gian</label>
+                <input @bind="Job.TimeStart" type="time" class="form-control" id="inputPassword4">
+            </div>
+            <div class="col-12">
+                <label for="inputPassword4" class="form-label" style="color:rgb(0, 0, 0)">Ngày</label>
+                <input @bind="Job.DateInit" type="date" class="form-control" id="inputPassword4">
+            </div>
+
+            <div class="col-12">
+                <label for="inputAddress2" class="form-label" style="color:rgb(0, 0, 0)">Address </label>
+                <input @bind="Job.Address" type="text" class="form-control" id="inputAddress2">
+
+            </div>
+
+            <div class="col-12">
+                <button @onclick="AddJob" type="button" class="btn btn-primary btn-add" style="width: 100%;">
+                    Thêm
+                </button>
+            </div>
+        </form>
+    </div>
+}
+else
+{
+    <div class="btn-showadd">
+        <div class="btn-showadd left">
+            <p>Các công việc</p>
+        </div>
+        <div class="btn-showadd right">
+            <button @onclick="SetShow" class="btn btn-primary btn-addjob">Tạo mới</button>
+        </div>
+    </div>
+}
+@code {
+
+    private JobContextDb jobConText = new JobContextDb();
+    public Job Job { get; set; } = new Job();
+    public bool IsShowAdd { get; set; } = false;
+    [Parameter]
+    public EventCallback LoadPage { get; set; }
+    @* private void setDefaultText()
+        {
+            Job.JobName = "";
+            Job.Address = "";
+            Job.TimeStart = DateTime.Now;
+            Job.TimeOut = DateTime.Now;
+        }*@
+    private void SetShow()
+    {
+        IsShowAdd = !IsShowAdd;
+    }
+
+    private async Task Alert(string message)
+    {
+        await JSRuntime.InvokeAsync<object>("Alert", message);
+    }
+    protected async Task AddJob()
+    {
+        if (!string.IsNullOrWhiteSpace(Job.JobName) && !string.IsNullOrWhiteSpace(Job.TimeStart.ToLongTimeString()) &&
+             !string.IsNullOrWhiteSpace(Job.Address))
+        {
+            if (DateTime.Compare(Job.DateInit, DateTime.Now) >= 0)
+            {
+                jobConText.Add<Job>(Job);
+                await Alert("Thêm thành công");
+                @* setDefaultText();*@
+            jobConText.SaveChanges();
+            await LoadPage.InvokeAsync();
+            await JSRuntime.InvokeVoidAsync("initMap", null);
+            StateHasChanged();
+        }
+        else
+        {
+            await Alert("Ngày bé hơn ngày hiện tại, mời nhập lại ngày!!!");
+        }
+
+    }
+    else
+    {
+        await Alert("Thông tin bị trống, mời nhập lại!!!");
+    }
+}
+}

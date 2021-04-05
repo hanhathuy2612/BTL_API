@@ -1,0 +1,15 @@
+﻿@inject IJSRuntime JSRuntime
+ 
+ <div id="map"></div>
+ <div id="output"></div>    
+
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("initMap", null);
+        }
+    }
+}

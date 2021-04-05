@@ -1,0 +1,38 @@
+﻿@page "/"
+@using JobManagementAspBlazor.Data
+<div>
+    <div class="jobcontrol">
+        @if (IsShowAdd)
+        {
+            <AddJobItem LoadPage="OnInitialized"/>
+        }else if (IsShowEdit)
+        {
+            <EidtJobItem Job="@Job" IsShowEdit="@IsShowEdit" HandleCancel="SetShow" HandleDone="SetShow"/>
+        }
+        <ListJob OnHandleEdit="EditItem"/>
+    </div>
+    <Map/>
+</div>
+@code{
+    public bool IsShowEdit { get; set; } = false;
+    public bool IsShowAdd { get; set; } = true;
+    public Job Job { get; set; } = new Job();
+
+    private void EditItem(Job job)
+    {
+        IsShowAdd = false;
+        IsShowEdit = true;
+        Job = job;
+        StateHasChanged();
+    }
+    private void SetShow()
+    {
+        IsShowAdd = true;
+        IsShowEdit = false;
+        StateHasChanged();
+    }
+    protected override void OnInitialized()
+    {
+        InvokeAsync(StateHasChanged);
+    }
+}

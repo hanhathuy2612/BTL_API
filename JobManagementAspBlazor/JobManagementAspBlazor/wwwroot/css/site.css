@@ -1,0 +1,268 @@
+@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+
+html, body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+a, .btn-link {
+    color: #0366d6;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.content {
+    padding-top: 1.1rem;
+}
+
+.valid.modified:not([type=checkbox]) {
+    outline: 1px solid #26b050;
+}
+
+.invalid {
+    outline: 1px solid red;
+}
+
+.validation-message {
+    color: red;
+}
+
+#blazor-error-ui {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+    #blazor-error-ui .dismiss {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
+
+/*MY CODE*/
+* {
+    padding: 0;
+    margin: 0;
+}
+#map{
+    width:100%;
+    height:100vh;
+}
+/*.btn {
+    background: rgba(161, 82, 45, 0.781);
+    color: rgb(255, 255, 255);
+    border-style: none;
+}*/
+
+.row.g-3 {
+    width: 500px;
+    height: 100%;
+    padding: 5px;
+    background-image: linear-gradient(to right, rgb(221, 139, 101), rgb(247, 186, 237));
+    margin-left: 5px;
+    margin-top: 10px;
+    box-shadow: 3px 5px 10px rgba(61, 59, 59, 0.637);
+}
+
+
+/*CONTROL*/
+
+.jobcontrol{
+    position:absolute;
+    top:16px;
+    left:16px;
+    z-index:1000;
+    width:500px;
+    margin-top:50px;
+}
+
+/*ADD CONTROL */
+
+.addcontrol.editcontrol {
+    width: 100%;
+    position:relative;
+}
+.addcontrol{
+    transform-origin: right top ;
+    animation: growth ease-in-out 0.3s;
+}
+
+.btn-showadd {
+    background:  rgb(221, 139, 101);
+    color: #fff;
+    text-align: center;
+    vertical-align: middle;
+    z-index: 1002;
+    width: 100%;
+    height: 50px;
+    display: block;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+}
+.btn-add {
+    margin-top: 20px;
+    background: #2e5c89;
+    border: none;
+}
+.btn-edit {
+    background: #eca416;
+    border: none;
+}
+.btn-navigator {
+    background: #0366d6;
+    border: none;
+    /*display: none;
+    transform-origin: right top;
+    animation: growth ease-in-out 0.3s;*/
+}
+@keyframes growth {
+    from {
+        transform: scaleY(0)
+    }
+
+    to {
+        transform: scaleY(100%)
+    }
+}
+.btn-showadd.left p {
+    text-align: left;
+    margin-left: 10px;
+    font-size: 30px;
+}
+
+.btn-showadd.right {
+    position:relative;
+}
+.btn-addjob {
+    position: absolute;
+    right: 0;
+    height: 50px;
+    padding: 5px;
+    background: #2e5c89;
+}
+/*LIST JOB*/
+.listjob {
+    width: 500px;
+    margin-top: 10px;
+    margin-left: 5px;
+    overflow: scroll;
+    /*box-shadow: 3px 5px 10px rgba(61, 59, 59, 0.637);*/
+    height: 400px;
+}
+
+.listjob::-webkit-scrollbar {
+    display: none;
+}
+
+.listjob {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/*ITEM JOB*/
+
+.btn.btn-primary.btn-delete {
+    background: #fa5757;
+    border:none;
+}
+
+.item {
+    margin-top: 10px;
+    /* background:rgb(155, 241, 241); */
+    background-image: linear-gradient(to right, rgb(221, 139, 101), rgb(247, 186, 237));
+    padding: 10px;
+    box-shadow: 3px 5px 10px rgba(61, 59, 59, 0.637);
+    width: 100%;
+    /* border-radius: 100px 100px; */
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+/*.item:hover {
+    opacity: 0.9;
+    margin-left: 5px;
+    transition: 0.3s;
+}*/
+    
+.item h3 {
+    font-size: 20px;
+}
+.item-left {
+    margin-left: 10px;  
+}
+
+.item-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.item-right .btn {
+    margin: 5px 0;
+    height: 34px;
+    width: 120px;
+}
+
+.sub-item {
+    text-align: left;
+    font-size:14px;
+}
+
+.col-12.btn.btn-primary {
+    width: 100%;
+}
+
+p.sub-item {
+    font-size: 14px;
+    line-height: 24px;
+    height: 24px;
+    width: 350px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    margin-bottom: 0;
+}
+
+h3.sub-item {
+    font-size: 20px;
+    line-height: 24px;
+    height: 30px;
+    width: 300px;
+    font-weight: bold;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+}
+.btn-hide {
+    position: absolute;
+    top: 13px;
+    right: -4px;
+    z-index: 1001;
+    border: none;
+    background: none;
+    
+}
+    .btn-hide i {
+        font-size: 26px;
+        color: #f44336;
+    }
+    

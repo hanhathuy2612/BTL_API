@@ -1,0 +1,25 @@
+﻿@using JobManagementAspBlazor.Context
+@using JobManagementAspBlazor.Data
+
+<div class="listjob">
+    @foreach (var i in jobConText.Jobs.OrderBy(s => s.DateInit).ThenBy(s => s.TimeStart))
+    {
+        <JobItem Job="@i" OnHandleDelete="(i) => DeleteItem(i)" OnHandleEdit="(i)=>EditItem(i)"/>
+    }
+</div>
+
+@code {
+
+    private JobContextDb jobConText = new JobContextDb();
+    [Parameter]
+    public EventCallback<Job> OnHandleEdit { get; set; }
+    private void DeleteItem(Job job)
+    {
+        jobConText.Remove<Job>(job);
+        jobConText.SaveChanges();
+    }
+    protected async Task EditItem(Job job)
+    {
+        await OnHandleEdit.InvokeAsync(job);
+    }
+}

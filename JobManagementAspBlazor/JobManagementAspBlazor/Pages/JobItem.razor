@@ -1,0 +1,41 @@
+﻿@using JobManagementAspBlazor.Data
+@using JobManagementAspBlazor.Context
+@inject IJSRuntime JSRuntime
+<div class="item" title="Nhấp để hiện vị trí">
+    <div class="item-left">
+        <h3 class="sub-item" title="@Job.JobName">@Job.JobName</h3>
+        <p class="sub-item">Địa chỉ: <label class="item-position">@Job.Address</label></p>
+        <div class="sub-item">Thời gian: @Job.TimeStart.ToShortTimeString()<br /> Ngày: @Job.DateInit.ToShortDateString()</div>
+    </div>
+    <div class="item-right">
+        <button class="btn btn-primary btn-edit" @onclick="EditJobItem">Sửa</button>
+        <button class="btn btn-primary btn-delete" @onclick="DeleteJobItem">Xóa</button>
+        <button class="btn btn-primary btn-navigator"><i class="fas fa-directions"></i></button>
+    </div>
+</div>
+@code {
+    public JobContextDb context = new JobContextDb();
+
+    [Parameter]
+    public EventCallback<Job> OnHandleDelete { get; set; }
+    [Parameter]
+    public EventCallback<Job> OnHandleEdit { get; set; }
+    [Parameter]
+    public Job Job { get; set; } = new Job();
+
+    protected async Task DeleteJobItem()
+    {
+        if(await JSRuntime.InvokeAsync<bool>("Confirm", "Bạn có muốn xóa mục này!!!"))
+        {
+            await OnHandleDelete.InvokeAsync(Job);
+            await InvokeAsync(StateHasChanged);
+        }
+
+    }
+    protected async Task EditJobItem()
+    {
+        await OnHandleEdit.InvokeAsync(Job);
+        await InvokeAsync(StateHasChanged);
+    }
+
+}

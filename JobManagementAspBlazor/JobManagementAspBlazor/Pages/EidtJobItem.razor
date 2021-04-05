@@ -1,0 +1,78 @@
+﻿@using JobManagementAspBlazor.Context
+@using JobManagementAspBlazor.Data
+@inject IJSRuntime JSRuntime
+
+<div class="editcontrol" >
+    <form class="row g-3">
+        <div class="col-12">
+            <label for="inputEmail4" class="form-label" style="color:rgb(0, 0, 0)">Tên công việc</label>
+            <input @bind="Job.JobName" type="text" class="form-control" id="inputEmail4">
+        </div>
+
+        <div class="col-12">
+            <label for="inputPassword4" class="form-label" style="color:rgb(0, 0, 0)">Thời gian bắt đầu</label>
+            <input @bind="Job.TimeStart" type="time" class="form-control" id="inputPassword4">
+        </div>
+        <div class="col-12">
+            <label for="inputPassword4" class="form-label" style="color:rgb(0, 0, 0)">Ngày</label>
+            <input @bind="Job.DateInit" type="date" class="form-control" id="inputPassword4">
+        </div>
+        <div class="col-12">
+            <label for="inputAddress2" class="form-label" style="color:rgb(0, 0, 0)">Address </label>
+            <input @bind="Job.Address" type="text" class="form-control" id="inputAddress2">
+
+        </div>
+      
+        <div class="col-12">
+            <button @onclick="DoneEdit" type="button" class="btn btn-primary btn-add">
+                Xong
+            </button>
+            <button @onclick="CancelEdit" type="button" class="btn btn-primary btn-add">
+                Thoát
+            </button>
+        </div>
+    </form>
+</div>
+@code {
+    private async Task Alert(string message)
+    {
+        await JSRuntime.InvokeAsync<object>("Alert", message);
+    }
+    private JobContextDb jobConText = new JobContextDb();
+    [Parameter]
+    public bool IsShowEdit { get; set; }
+    [Parameter]
+    public Job Job { get; set; } = new Job();
+
+    [Parameter]
+    public EventCallback HandleDone { get; set; }
+
+    [Parameter]
+    public EventCallback HandleCancel { get; set; }
+
+    protected async Task DoneEdit()
+    {
+        if (!string.IsNullOrWhiteSpace(Job.JobName) && !string.IsNullOrWhiteSpace(Job.TimeStart.ToLongTimeString()) &&
+             !string.IsNullOrWhiteSpace(Job.Address))
+        {
+            
+                jobConText.Update<Job>(Job);
+                IsShowEdit = false;
+                jobConText.SaveChanges();
+                await HandleDone.InvokeAsync();
+                await JSRuntime.InvokeVoidAsync("initMap", null);
+            
+        }
+        else
+        {
+            await Alert("Thông tin bị trống, mời nhập lại!!!");
+        }
+        StateHasChanged();
+    }
+    private void CancelEdit()
+    {
+        IsShowEdit = false;
+        HandleCancel.InvokeAsync();
+        StateHasChanged();
+    }
+}
